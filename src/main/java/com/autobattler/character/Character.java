@@ -1,7 +1,13 @@
 package com.autobattler.character;
 
+import java.util.Stack;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 
 public class Character {
     private int health;
@@ -9,6 +15,12 @@ public class Character {
     private String name;
     private Image image;
     private ImageView imageView;
+    private Text healthText;
+    private Text attackText;
+
+    private VBox verticalBox;
+    private HBox horizontalBox;
+    private StackPane characterView;
 
     public Character(int health, int attackPower, String name, Image image) {
         this.health = health;
@@ -18,6 +30,15 @@ public class Character {
         this.imageView = new ImageView(image);
         imageView.setFitWidth(100);
         imageView.preserveRatioProperty().set(true);
+        this.healthText = new Text(String.valueOf(health));
+        this.attackText = new Text(String.valueOf(attackPower));
+        this.verticalBox = new VBox(5);
+        this.horizontalBox = new HBox(5);
+        horizontalBox.getChildren().addAll(attackText, healthText);
+        verticalBox.getChildren().addAll(imageView, horizontalBox);
+        this.characterView = new StackPane();
+        characterView.getChildren().addAll(verticalBox);
+
     }
 
     public int getHealth() {return health;}
@@ -25,4 +46,19 @@ public class Character {
     public String getName() {return name;}
     public Image getImage() {return image;}
     public ImageView getImageView() {return imageView;}
+    public Text getHealthText() {return healthText;}
+    public Text getAttackText() {return attackText;}
+    public StackPane getCharacterView() {return characterView;}
+
+    public void setHealth(int health) {
+        if (health<= 0){
+            this.health = 0;
+        } else {
+            this.health = health;}
+        this.healthText.setText(String.valueOf(this.health));
+    }
+
+    public boolean isAlive() {
+        return this.health > 0;
+    }
 }

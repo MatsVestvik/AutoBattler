@@ -1,28 +1,209 @@
 package com.autobattler.character;
 
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.autobattler.character.Character;
-
 public class Team {
     private List<Character> members;
+    private HBox teamView;
+    private boolean player;
+    private static final int TEAM_SIZE = 5;
 
-    public Team() {
+    public Team(boolean player) {
+        this.player = player;
         members = new ArrayList<>();
+        teamView = new HBox();
+        teamView.setSpacing(10);
+        teamView.setPrefHeight(100);
+        teamView.setPrefWidth(500);
+        
+        initializePlaceholders();
+    }
 
-        for (int i = 0; i < 5; i++) {
+    private void initializePlaceholders() {
+        for (int i = 0; i < TEAM_SIZE; i++) {
+            VBox placeholder = createPlaceholder();
             members.add(null);
+            teamView.getChildren().add(placeholder);
         }
     }
 
-    public List<Character> getMembers() {return members;}
-
-    public void setMember(int position, Character character) {
-        if (position >= 0 && position < members.size()) {
-            members.set(position, character);
-        }
+    private VBox createPlaceholder() {
+        VBox placeholder = new VBox();
+        placeholder.setPrefSize(100, 100);
+        placeholder.setStyle("-fx-border-color: gray; -fx-border-width: 1px;");
+        return placeholder;
     }
 
+    public List<Character> getMembers() {
+        return new ArrayList<>(members); // Return defensive copy
+    }
     
+    public List<Character> getActiveMembers() {
+        List<Character> activeMembers = new ArrayList<>();
+        for (Character character : members) {
+            if (character != null) {
+                activeMembers.add(character);
+            }
+        }
+        return activeMembers;
+    }
+
+    public HBox getTeamView() {
+        return teamView;
+    }
+
+    public boolean isPlayer() {
+        return player;
+    }
+
+    public boolean setMember(int position, Character character) {
+        if (position < 0 || position >= TEAM_SIZE) {
+            return false;
+        }
+        
+        // Check if position is already occupied
+        if (members.get(position) != null) {
+            return false;
+        }
+        
+        if (character != null) {
+            if (!player) {
+                character.getImageView().setScaleX(-1);
+            }
+            members.set(position, character);
+            teamView.getChildren().set(position, character.getCharacterView());
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean removeMember(int position) {
+        if (position < 0 || position >= TEAM_SIZE || members.get(position) == null) {
+            return false;
+        }
+        
+        members.set(position, null);
+        teamView.getChildren().set(position, createPlaceholder());
+        return true;
+    }
+    
+    public boolean removeMember(Character character) {
+        int position = members.indexOf(character);
+        if (position != -1) {
+            return removeMember(position);
+        }
+        return false;
+    }
+
+    public void moveAllMembersForward() {
+        // Move from the end to the beginning to avoid overwriting
+        for (int i = TEAM_SIZE - 2; i >= 0; i--) {
+            Character current = members.get(i);
+            if (current != null) {
+                int nextPosition = i + 1;
+                
+                // Find the next available position
+                while (nextPosition < TEAM_SIZE && members.get(nextPosition) != null) {
+                    nextPosition++;
+                }
+                
+                if (nextPosition < TEAM_SIZE) {
+                    // Move character to new position
+                    members.set(nextPosition, current);
+                    members.set(i, null);
+                    teamView.getChildren().set(nextPosition, current.getCharacterView());
+                    teamView.getChildren().set(i, createPlaceholder());
+                }
+            }
+        }
+    }
+    
+    public void compactTeam() {
+        List<Character> tempMembers = new ArrayList<>();
+        List<javafx.scene.Node> tempViews = new ArrayList<>();
+        
+        // Collect all non-null members
+        for (int i = 0; i < TEAM_SIZE; i++) {
+            Character member = members.get(i);
+            if (member != null) {
+                tempMembers.add(member);
+                tempViews.add(member.getCharacterView());
+            }
+        }
+        
+        // Clear and rebuild
+        members.clear();
+        teamView.getChildren().clear();
+        if (!player){
+            for (int i = 0; i < tempMembers.size(); i++) {
+                members.add(tempMembers.get(i));
+                teamView.getChildren().add(tempViews.get(i));
+            }
+        }
+        // Add active members first
+        // Fill remaining slots with placeholders
+        for (int i = tempMembers.size(); i < TEAM_SIZE; i++) {
+            members.add(null);
+            teamView.getChildren().add(createPlaceholder());
+        }
+
+        if (player){
+            for (int i = 0; i < tempMembers.size(); i++) {
+                members.add(tempMembers.get(i));
+                teamView.getChildren().add(tempViews.get(i));
+            }
+        }
+    }
+    
+    public int getEmptySlotCount() {
+        int count = 0;
+        for (Character member : members) {
+            if (member == null) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    public boolean hasEmptySlots() {
+        return getEmptySlotCount() > 0;
+    }
+    
+    public int getFirstEmptySlot() {
+        for (int i = 0; i < TEAM_SIZE; i++) {
+            if (members.get(i) == null) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    public boolean addMember(Character character) {
+        int emptySlot = getFirstEmptySlot();
+        if (emptySlot != -1) {
+            return setMember(emptySlot, character);
+        }
+        return false;
+    }
+    
+    public void clearTeam() {
+        for (int i = 0; i < TEAM_SIZE; i++) {
+            members.set(i, null);
+            teamView.getChildren().set(i, createPlaceholder());
+        }
+    }
+    
+    public boolean isPositionOccupied(int position) {
+        return position >= 0 && position < TEAM_SIZE && members.get(position) != null;
+    }
+    
+    public Character getMemberAt(int position) {
+        if (position >= 0 && position < TEAM_SIZE) {
+            return members.get(position);
+        }
+        return null;
+    }
 }

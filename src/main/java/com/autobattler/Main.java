@@ -4,23 +4,43 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 import com.autobattler.util.makeImage;
 import com.autobattler.character.Character;
+import com.autobattler.character.Team;
+import com.autobattler.logic.fight.AutoBattle;
+import com.autobattler.scenes.FightScene;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Image Avatar = makeImage.loadImage("/img/sprites/character/Basic_Character.gif");
-        Character character = new Character(100, 20, "Warrior", Avatar);
+        Image cavemanAvatar = makeImage.loadImage("/img/sprites/character/Basic_Character.gif");
+        Image orcAvatar = makeImage.loadImage("/img/sprites/character/Orc.gif");
 
-        Team team = new Team();
-        team.setMember(0, character);
+        Character caveman1 = new Character(100, 20, "Warrior", cavemanAvatar);
+        Character caveman2 = new Character(100, 20, "Warrior", cavemanAvatar);
 
-        StackPane root = new StackPane();
-        root.getChildren().add(character.getImageView());
+
+        Team team = new Team(true);
+        team.setMember(0, caveman1);
+        team.setMember(4, caveman2);
+
+        Character orc1 = new Character(120, 25, "Orc", orcAvatar);
+        Character orc2 = new Character(120, 25, "Orc", orcAvatar); 
+
+        Team enemyTeam = new Team(false);
+        
+        enemyTeam.setMember(1, orc1);
+        enemyTeam.setMember(3, orc2);
+        
+        FightScene.spaceEvent(team, enemyTeam);
+
+        HBox root = new HBox(50);
+        root.getChildren().add(team.getTeamView());
+        root.getChildren().add(enemyTeam.getTeamView());
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("AutoBattler");
