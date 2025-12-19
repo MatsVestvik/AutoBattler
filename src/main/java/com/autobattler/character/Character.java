@@ -38,7 +38,6 @@ public class Character {
         verticalBox.getChildren().addAll(imageView, horizontalBox);
         this.characterView = new StackPane();
         characterView.getChildren().addAll(verticalBox);
-
     }
 
     public int getHealth() {return health;}

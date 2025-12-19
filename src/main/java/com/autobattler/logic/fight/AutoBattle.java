@@ -7,25 +7,17 @@ import com.autobattler.character.Character;
 
 import javafx.animation.KeyFrame;
 import javafx.util.Duration;
+import javafx.animation.Timeline;
 
 public class AutoBattle {
     
-    public static void startBattle(Team player, Team enemy) {
+    public static void fightOneVOne(Team player, Team enemy) {
+        Timeline timeline = new Timeline();
+
         Character firstPosPlayer = player.getMembers().get(4);
         Character firstPosEnemy = enemy.getMembers().get(0); 
 
         boolean playerStronger = (firstPosPlayer.getAttackPower() - firstPosEnemy.getAttackPower()) >= 0;
-
-        if (playerStronger) {
-            Attack.performAttack(firstPosPlayer, firstPosEnemy);
-            if (firstPosEnemy.isAlive()) {
-                Attack.performAttack(firstPosEnemy, firstPosPlayer);
-            }
-        } else {
-            Attack.performAttack(firstPosEnemy, firstPosPlayer);
-            if (firstPosPlayer.isAlive()) {
-                Attack.performAttack(firstPosPlayer, firstPosEnemy);
-            }
-        }
+       
     }
 }

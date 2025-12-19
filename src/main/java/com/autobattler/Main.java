@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 import com.autobattler.util.makeImage;
 import com.autobattler.character.Character;
 import com.autobattler.character.Team;
+import com.autobattler.logic.fight.Attack;
 import com.autobattler.logic.fight.AutoBattle;
 import com.autobattler.scenes.FightScene;
 
@@ -36,7 +37,7 @@ public class Main extends Application {
         enemyTeam.setMember(1, orc1);
         enemyTeam.setMember(3, orc2);
         
-        FightScene.spaceEvent(team, enemyTeam);
+        Attack.performAttack(team, enemyTeam);
 
         HBox root = new HBox(50);
         root.getChildren().add(team.getTeamView());
