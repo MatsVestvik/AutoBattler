@@ -38,7 +38,12 @@ public class Team {
     }
 
     public List<Character> getMembers() {
-        return new ArrayList<>(members); // Return defensive copy
+        if (player){
+            return new ArrayList<>(reverseMembers(members)); // Return defensive copy
+        }
+        else{
+            return new ArrayList<>(members); // Return defensive copy
+        }
     }
     
     public List<Character> getActiveMembers() {

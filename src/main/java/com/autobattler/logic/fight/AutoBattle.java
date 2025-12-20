@@ -1,13 +1,18 @@
 package com.autobattler.logic.fight;
 
 import java.security.Key;
+import java.sql.Time;
+import java.util.List;
 
 import com.autobattler.character.Team;
 import com.autobattler.character.Character;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.util.Duration;
 import javafx.animation.Timeline;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class AutoBattle {
     
@@ -16,31 +21,37 @@ public class AutoBattle {
         Timeline battle = new Timeline();
         player.compactTeam();
         enemy.compactTeam();
-        KeyFrame playerAttack = new KeyFrame(Duration.millis(1000), e -> {
-            enemy.removeDeadMembers();
-            player.removeDeadMembers();
-            Character eChar = enemy.getMembers().get(0);
-            Character pChar = player.reverseMembers(player.getMembers()).get(0);
-            if (eChar != null && eChar.isAlive()) {
-                eChar.setHealth(eChar.getHealth() - pChar.getAttackPower());
-            }
-                    
-           
+        KeyFrame playerAttack = new KeyFrame(Duration.millis(3000), e -> {
+            attack(player, enemy);
         });
         
-        KeyFrame enemyAttack = new KeyFrame(Duration.millis(2000), e -> {
-            enemy.removeDeadMembers();
-            player.removeDeadMembers();
-            Character pChar = player.reverseMembers(player.getMembers()).get(0);
-            Character eChar = enemy.getMembers().get(0);
-            if (pChar != null && pChar.isAlive()) {
-                pChar.setHealth(pChar.getHealth() - eChar.getAttackPower());
-            }
-                    
+        KeyFrame enemyAttack = new KeyFrame(Duration.millis(6000), e -> {
+            attack(enemy, player);
         });
         battle.getKeyFrames().add(playerAttack);
         battle.getKeyFrames().add(enemyAttack);
         battle.setCycleCount(Timeline.INDEFINITE);
         battle.play();
+    }
+
+    private static void attack(Team attackerTeam, Team defenderTeam) {
+        attackerTeam.removeDeadMembers();
+        defenderTeam.removeDeadMembers();
+        Character eChar = defenderTeam.getMembers().get(0);
+        Character pChar = attackerTeam.getMembers().get(0);
+        ImageView attackImage = pChar.getImageView();
+        if (eChar != null && eChar.isAlive()) {
+            Timeline attackMoveTimeline = new Timeline();
+            KeyFrame attackMove = new KeyFrame(Duration.millis(1000),
+                new KeyValue(attackImage.xProperty(),400)
+            );
+            KeyFrame returnMove = new KeyFrame(Duration.millis(2000),
+                new KeyValue(attackImage.xProperty(),0)
+            );
+            attackMoveTimeline.getKeyFrames().addAll(attackMove, returnMove);
+            attackMoveTimeline.play();
+            eChar.setHealth(eChar.getHealth() - pChar.getAttackPower());
+        }
+
     }
 }
