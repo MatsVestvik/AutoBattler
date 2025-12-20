@@ -17,7 +17,7 @@ public class Attack {
             
         });
         KeyFrame takeDamage = new KeyFrame (Duration.millis(1500), e -> {
-            defender.setHealth(defender.getHealth() - attacker.getAttackPower());
+            
         });
         timeline.getKeyFrames().addAll(attack, takeDamage);
         timeline.play();

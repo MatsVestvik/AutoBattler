@@ -12,42 +12,31 @@ import javafx.animation.Timeline;
 public class AutoBattle {
     
     public void battle(Team player, Team enemy){
+
         Timeline battle = new Timeline();
         player.compactTeam();
         enemy.compactTeam();
-        KeyFrame playerAttack = new KeyFrame(Duration.millis(2000), e -> {
-            for (Character pChar : player.getMembers()) {
-                if (pChar != null && pChar.isAlive()) {
-                    for (Character eChar : enemy.getMembers()) {
-                        if (eChar != null && eChar.isAlive()) {
-                            Attack.performAttack(pChar, eChar);
-                            break;
-                        }
-                        else {
-                            enemy.removeDeadMembers();
-                            player.removeDeadMembers();
-                        }
-                    }
-                }
+        KeyFrame playerAttack = new KeyFrame(Duration.millis(1000), e -> {
+            enemy.removeDeadMembers();
+            player.removeDeadMembers();
+            Character eChar = enemy.getMembers().get(0);
+            Character pChar = player.reverseMembers(player.getMembers()).get(0);
+            if (eChar != null && eChar.isAlive()) {
+                eChar.setHealth(eChar.getHealth() - pChar.getAttackPower());
             }
+                    
            
         });
-
-        KeyFrame enemyAttack = new KeyFrame(Duration.millis(4000), e -> {
-             for (Character eChar : enemy.getMembers()) {
-                if (eChar != null && eChar.isAlive()) {
-                    for (Character pChar : player.reverseMembers(player.getMembers())) {
-                        if (pChar != null && pChar.isAlive()) {
-                            Attack.performAttack(eChar, pChar);
-                            break;
-                        }
-                        else {
-                            player.removeDeadMembers();
-                            enemy.removeDeadMembers();
-                        }
-                    }
-                }
+        
+        KeyFrame enemyAttack = new KeyFrame(Duration.millis(2000), e -> {
+            enemy.removeDeadMembers();
+            player.removeDeadMembers();
+            Character pChar = player.reverseMembers(player.getMembers()).get(0);
+            Character eChar = enemy.getMembers().get(0);
+            if (pChar != null && pChar.isAlive()) {
+                pChar.setHealth(pChar.getHealth() - eChar.getAttackPower());
             }
+                    
         });
         battle.getKeyFrames().add(playerAttack);
         battle.getKeyFrames().add(enemyAttack);
