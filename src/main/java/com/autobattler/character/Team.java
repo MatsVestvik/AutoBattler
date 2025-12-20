@@ -206,4 +206,45 @@ public class Team {
         }
         return null;
     }
+
+    public boolean hasAliveMembers() {
+        for (Character member : members) {
+            if (member != null && member.isAlive()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+
+    public List<Character> reverseMembers(List <Character> members) {
+        List<Character> reversed = new ArrayList<>();
+        for (int i = TEAM_SIZE - 1; i >= 0; i--) {
+            reversed.add(members.get(i));
+        }
+        return reversed;
+    }
+
+    public Character getFirstAliveMember() {
+        compactTeam();
+        if(!player){
+            for (int i = TEAM_SIZE - 1; i >=0 ; i--) {
+                Character member = members.get(i);
+                if (member != null && member.isAlive()) {
+                    return member;
+                }
+            }
+            return null;
+        }
+        else{
+            members = reverseMembers(members);
+            for (int i = 0; i < TEAM_SIZE; i++) {
+                Character member = members.get(i);
+                if (member != null && member.isAlive()) {
+                    return member;
+                }
+            }
+            return null;
+        }
+    }
 }

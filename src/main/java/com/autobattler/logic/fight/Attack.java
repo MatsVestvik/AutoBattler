@@ -1,6 +1,7 @@
 package com.autobattler.logic.fight;
 
 import java.security.Key;
+import java.sql.Time;
 
 import com.autobattler.character.Character;
 import com.autobattler.character.Team;
@@ -10,36 +11,15 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 public class Attack {
-    public static void performAttack(Team attackerTeam, Team defenderTeam) {
+    public static void performAttack(Character attacker, Character defender) {
         Timeline timeline = new Timeline();
-        Character attacker = attackerTeam.getMembers().get(4);
-        Character defender = defenderTeam.getMembers().get(0);
-        KeyFrame kf = new KeyFrame(
-            Duration.millis(1000), e -> {
-                if (attackerTeam.isPlayer()) {
-                    attacker.getCharacterView().setTranslateX(-20);
-                } else {
-                    attacker.getCharacterView().setTranslateX(20);
-                }
-            }
-        );
-        KeyFrame kf2 = new KeyFrame(
-            Duration.millis(1500), e -> {
-                if (attackerTeam.isPlayer()) {
-                    attacker.getCharacterView().setTranslateX(0);
-                } else {
-                    attacker.getCharacterView().setTranslateX(0);
-                }
-                applyDamage(attacker, defender);
-            }
-        );
-        timeline.getKeyFrames().addAll(kf, kf2);
+        KeyFrame attack = new KeyFrame(Duration.millis(1000) , e -> {
+            
+        });
+        KeyFrame takeDamage = new KeyFrame (Duration.millis(1500), e -> {
+            defender.setHealth(defender.getHealth() - attacker.getAttackPower());
+        });
+        timeline.getKeyFrames().addAll(attack, takeDamage);
         timeline.play();
-    }
-
-    private static void applyDamage(Character attacker, Character defender) {
-        int damage = attacker.getAttackPower();
-        int newHealth = defender.getHealth() - damage;
-        defender.setHealth(newHealth);
     }
 }
