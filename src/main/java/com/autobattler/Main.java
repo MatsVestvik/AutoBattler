@@ -37,7 +37,8 @@ public class Main extends Application {
         enemyTeam.setMember(1, orc1);
         enemyTeam.setMember(3, orc2);
 
-        Attack.performAttack(caveman1, orc1);
+        AutoBattle autoBattle = new AutoBattle();
+        autoBattle.battle(team, enemyTeam);
 
         HBox root = new HBox(50);
         root.getChildren().add(team.getTeamView());

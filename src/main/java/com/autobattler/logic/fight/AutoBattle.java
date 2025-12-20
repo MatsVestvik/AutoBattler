@@ -12,26 +12,31 @@ import javafx.animation.Timeline;
 public class AutoBattle {
     
     public void battle(Team player, Team enemy){
-        while (player.hasAliveMembers() && enemy.hasAliveMembers()) {
-            if (player.getFirstAliveMember().getAttackPower() >= enemy.getFirstAliveMember().getAttackPower()) {
-                attack(player.getFirstAliveMember(), enemy.getFirstAliveMember());
-                if (enemy.getFirstAliveMember().isAlive()) {
-                    attack(enemy.getFirstAliveMember(), player.getFirstAliveMember());
-                }
-            } else {
-                attack(enemy.getFirstAliveMember(), player.getFirstAliveMember());
-                if (player.getFirstAliveMember().isAlive()) {
-                    attack(player.getFirstAliveMember(), enemy.getFirstAliveMember());
+        Timeline battle = new Timeline();
+        KeyFrame round = new KeyFrame(Duration.millis(2000), e -> {
+            for (Character pChar : player.getMembers()) {
+                if (pChar != null && pChar.isAlive()) {
+                    for (Character eChar : enemy.getMembers()) {
+                        if (eChar != null && eChar.isAlive()) {
+                            Attack.performAttack(pChar, eChar);
+                            break;
+                        }
+                    }
                 }
             }
-        }
-    }
-
-    public static void attack(Character attacker, Character defender) {
-        int damage = attacker.getAttackPower();
-        if (damage < 0) {
-            damage = 0;
-        }
-        defender.setHealth(damage);
+            for (Character eChar : enemy.getMembers()) {
+                if (eChar != null && eChar.isAlive()) {
+                    for (Character pChar : player.reverseMembers(player.getMembers())) {
+                        if (pChar != null && pChar.isAlive()) {
+                            Attack.performAttack(eChar, pChar);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        battle.getKeyFrames().add(round);
+        battle.setCycleCount(Timeline.INDEFINITE);
+        battle.play();
     }
 }
