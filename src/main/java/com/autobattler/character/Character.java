@@ -38,8 +38,8 @@ public class Character {
         imageView.preserveRatioProperty().set(true);
         this.healthText = new Text(String.valueOf(health));
         this.attackText = new Text(String.valueOf(attackPower));
-        healthText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
-        attackText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
+        healthText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: green;");
+        attackText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: black;");
         this.verticalBox = new VBox(5);
         this.horizontalBox = new HBox(5);
         horizontalBox.getChildren().addAll(attackText, healthText);

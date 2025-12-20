@@ -16,12 +16,12 @@ public class Attack {
     public static void redText(Character attacker, Character defender) {
         Timeline timeline = new Timeline();
         defender.takeDamage(attacker.getAttackPower());
-        KeyFrame attack = new KeyFrame(Duration.millis(00) , 
+        KeyFrame attack = new KeyFrame(Duration.millis(100) , 
             new KeyValue(defender.getHealthText().fillProperty(), Color.RED),
-            new KeyValue(attacker.getAttackText().fillProperty(), Color.LIGHTBLUE)
+            new KeyValue(attacker.getAttackText().fillProperty(), Color.BLUE)
         );
-        KeyFrame takeDamage = new KeyFrame (Duration.millis(2000),
-            new KeyValue(defender.getHealthText().fillProperty(), Color.BLACK),
+        KeyFrame takeDamage = new KeyFrame (Duration.millis(1000),
+            new KeyValue(defender.getHealthText().fillProperty(), Color.GREEN),
             new KeyValue(attacker.getAttackText().fillProperty(), Color.BLACK)
         );
         timeline.getKeyFrames().addAll(attack, takeDamage);
