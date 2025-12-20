@@ -1,5 +1,6 @@
 package com.autobattler.character;
 
+import java.security.Key;
 import java.util.Stack;
 
 import javafx.scene.image.Image;
@@ -8,6 +9,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.animation.KeyValue;
+import javafx.util.Duration;
+import javafx.scene.paint.Color;
 
 public class Character {
     private int health;
@@ -32,6 +38,8 @@ public class Character {
         imageView.preserveRatioProperty().set(true);
         this.healthText = new Text(String.valueOf(health));
         this.attackText = new Text(String.valueOf(attackPower));
+        healthText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
+        attackText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
         this.verticalBox = new VBox(5);
         this.horizontalBox = new HBox(5);
         horizontalBox.getChildren().addAll(attackText, healthText);
@@ -55,6 +63,16 @@ public class Character {
         } else {
             this.health = health;}
         this.healthText.setText(String.valueOf(this.health));
+    }
+
+    public void takeDamage(int damage) {
+        Timeline timeline = new Timeline();
+        KeyFrame takeDamage = new KeyFrame (Duration.millis(500), e -> {
+            new KeyValue(healthText.fillProperty(), Color.RED); 
+        });
+        timeline.getKeyFrames().add(takeDamage);
+        timeline.play();
+        setHealth(this.health - damage);
     }
 
     public boolean isAlive() {

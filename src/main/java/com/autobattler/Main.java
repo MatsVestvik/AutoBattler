@@ -36,7 +36,7 @@ public class Main extends Application {
         
         enemyTeam.setMember(1, orc1);
         enemyTeam.setMember(3, orc2);
-
+        
         AutoBattle autoBattle = new AutoBattle();
         autoBattle.battle(team, enemyTeam);
 

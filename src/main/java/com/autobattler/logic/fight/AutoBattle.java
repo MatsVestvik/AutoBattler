@@ -13,6 +13,7 @@ import javafx.util.Duration;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 public class AutoBattle {
     
@@ -42,15 +43,14 @@ public class AutoBattle {
         ImageView attackImage = pChar.getImageView();
         if (eChar != null && eChar.isAlive()) {
             Timeline attackMoveTimeline = new Timeline();
-            KeyFrame attackMove = new KeyFrame(Duration.millis(1000),
-                new KeyValue(attackImage.xProperty(),400)
+            KeyFrame attackMove = new KeyFrame(Duration.millis(0),
+                e -> Attack.redText(pChar, eChar)
             );
             KeyFrame returnMove = new KeyFrame(Duration.millis(2000),
-                new KeyValue(attackImage.xProperty(),0)
+                new KeyValue(attackImage.xProperty(), attackImage.getX())
             );
             attackMoveTimeline.getKeyFrames().addAll(attackMove, returnMove);
             attackMoveTimeline.play();
-            eChar.setHealth(eChar.getHealth() - pChar.getAttackPower());
         }
 
     }
