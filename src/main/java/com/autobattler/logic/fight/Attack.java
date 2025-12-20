@@ -13,16 +13,18 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class Attack {
-    public static void redText(Character attacker, Character defender) {
+    public static void redText(Character attacker, Character defender, int direction) {
         Timeline timeline = new Timeline();
         defender.takeDamage(attacker.getAttackPower());
         KeyFrame attack = new KeyFrame(Duration.millis(100) , 
             new KeyValue(defender.getHealthText().fillProperty(), Color.RED),
-            new KeyValue(attacker.getAttackText().fillProperty(), Color.BLUE)
+            new KeyValue(attacker.getAttackText().fillProperty(), Color.BLUE),
+            new KeyValue(attacker.getCharacterView().translateXProperty(), attacker.getCharacterView().getTranslateX() + direction * 20)
         );
-        KeyFrame takeDamage = new KeyFrame (Duration.millis(1000),
+        KeyFrame takeDamage = new KeyFrame (Duration.millis(500),
             new KeyValue(defender.getHealthText().fillProperty(), Color.GREEN),
-            new KeyValue(attacker.getAttackText().fillProperty(), Color.BLACK)
+            new KeyValue(attacker.getAttackText().fillProperty(), Color.BLACK),
+            new KeyValue(attacker.getCharacterView().translateXProperty(), attacker.getCharacterView().getTranslateX())
         );
         timeline.getKeyFrames().addAll(attack, takeDamage);
         timeline.play();

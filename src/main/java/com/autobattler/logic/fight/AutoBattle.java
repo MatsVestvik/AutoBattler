@@ -41,10 +41,17 @@ public class AutoBattle {
         Character eChar = defenderTeam.getMembers().get(0);
         Character pChar = attackerTeam.getMembers().get(0);
         ImageView attackImage = pChar.getImageView();
+        int direction;
+        if (attackerTeam.isPlayer()){
+            direction = 1;
+        }
+        else{
+            direction = -1;
+        }
         if (eChar != null && eChar.isAlive()) {
             Timeline attackMoveTimeline = new Timeline();
             KeyFrame attackMove = new KeyFrame(Duration.millis(0),
-                e -> Attack.redText(pChar, eChar)
+                e -> Attack.redText(pChar, eChar, direction)
             );
             KeyFrame returnMove = new KeyFrame(Duration.millis(2000),
                 new KeyValue(attackImage.xProperty(), attackImage.getX())
