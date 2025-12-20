@@ -247,4 +247,15 @@ public class Team {
             return null;
         }
     }
+
+    public void removeDeadMembers() {
+        for (int i = 0; i < TEAM_SIZE; i++) {
+            Character member = members.get(i);
+            if (member != null && !member.isAlive()) {
+                removeMember(i);
+                teamView.getChildren().set(i, createPlaceholder());
+                this.compactTeam();
+            }
+        }
+    }
 }

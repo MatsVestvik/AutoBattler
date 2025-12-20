@@ -13,6 +13,8 @@ public class AutoBattle {
     
     public void battle(Team player, Team enemy){
         Timeline battle = new Timeline();
+        player.compactTeam();
+        enemy.compactTeam();
         KeyFrame round = new KeyFrame(Duration.millis(2000), e -> {
             for (Character pChar : player.getMembers()) {
                 if (pChar != null && pChar.isAlive()) {
@@ -20,6 +22,10 @@ public class AutoBattle {
                         if (eChar != null && eChar.isAlive()) {
                             Attack.performAttack(pChar, eChar);
                             break;
+                        }
+                        else {
+                            enemy.removeDeadMembers();
+                            player.removeDeadMembers();
                         }
                     }
                 }
@@ -30,6 +36,10 @@ public class AutoBattle {
                         if (pChar != null && pChar.isAlive()) {
                             Attack.performAttack(eChar, pChar);
                             break;
+                        }
+                        else {
+                            player.removeDeadMembers();
+                            enemy.removeDeadMembers();
                         }
                     }
                 }
