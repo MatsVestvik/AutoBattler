@@ -15,7 +15,7 @@ public class AutoBattle {
         Timeline battle = new Timeline();
         player.compactTeam();
         enemy.compactTeam();
-        KeyFrame round = new KeyFrame(Duration.millis(2000), e -> {
+        KeyFrame playerAttack = new KeyFrame(Duration.millis(2000), e -> {
             for (Character pChar : player.getMembers()) {
                 if (pChar != null && pChar.isAlive()) {
                     for (Character eChar : enemy.getMembers()) {
@@ -30,7 +30,11 @@ public class AutoBattle {
                     }
                 }
             }
-            for (Character eChar : enemy.getMembers()) {
+           
+        });
+
+        KeyFrame enemyAttack = new KeyFrame(Duration.millis(4000), e -> {
+             for (Character eChar : enemy.getMembers()) {
                 if (eChar != null && eChar.isAlive()) {
                     for (Character pChar : player.reverseMembers(player.getMembers())) {
                         if (pChar != null && pChar.isAlive()) {
@@ -45,7 +49,8 @@ public class AutoBattle {
                 }
             }
         });
-        battle.getKeyFrames().add(round);
+        battle.getKeyFrames().add(playerAttack);
+        battle.getKeyFrames().add(enemyAttack);
         battle.setCycleCount(Timeline.INDEFINITE);
         battle.play();
     }
