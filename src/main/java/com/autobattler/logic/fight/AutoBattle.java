@@ -22,11 +22,11 @@ public class AutoBattle {
         Timeline battle = new Timeline();
         player.compactTeam();
         enemy.compactTeam();
-        KeyFrame playerAttack = new KeyFrame(Duration.millis(3000), e -> {
+        KeyFrame playerAttack = new KeyFrame(Duration.millis(1000), e -> {
             attack(player, enemy);
         });
         
-        KeyFrame enemyAttack = new KeyFrame(Duration.millis(6000), e -> {
+        KeyFrame enemyAttack = new KeyFrame(Duration.millis(2000), e -> {
             attack(enemy, player);
         });
         battle.getKeyFrames().add(playerAttack);
@@ -53,7 +53,7 @@ public class AutoBattle {
             KeyFrame attackMove = new KeyFrame(Duration.millis(0),
                 e -> Attack.redText(pChar, eChar, direction)
             );
-            KeyFrame returnMove = new KeyFrame(Duration.millis(2000),
+            KeyFrame returnMove = new KeyFrame(Duration.millis(1000),
                 new KeyValue(attackImage.xProperty(), attackImage.getX())
             );
             attackMoveTimeline.getKeyFrames().addAll(attackMove, returnMove);
