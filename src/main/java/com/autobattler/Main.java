@@ -13,6 +13,8 @@ import com.autobattler.character.Team;
 import com.autobattler.logic.fight.Attack;
 import com.autobattler.logic.fight.AutoBattle;
 import com.autobattler.scenes.FightScene;
+import com.autobattler.scenes.StartScene;
+import com.autobattler.scenes.YouLoseScene;
 
 public class Main extends Application {
 
@@ -48,15 +50,18 @@ public class Main extends Application {
         enemyTeam.setMember(0, orc3);
         enemyTeam.setMember(4, orc4);
 
-        AutoBattle autoBattle = new AutoBattle();
-        autoBattle.battle(team, enemyTeam);
+        
 
-        HBox root = new HBox(50);
-        root.getChildren().add(team.getTeamView());
-        root.getChildren().add(enemyTeam.getTeamView());
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
+        YouLoseScene youLoseScene = new YouLoseScene();
+        Scene loseSceneInstance = youLoseScene.createScene(primaryStage);
+
+        FightScene fightScene = new FightScene();
+        Scene fightSceneInstance = fightScene.createScene(team, enemyTeam, primaryStage, loseSceneInstance, loseSceneInstance);
+
+        StartScene.runStartScene(primaryStage, fightSceneInstance, loseSceneInstance, loseSceneInstance);
+
         primaryStage.setTitle("AutoBattler");
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
     public static void main(String[] args) {
