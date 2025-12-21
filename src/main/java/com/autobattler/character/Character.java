@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.animation.KeyFrame;
@@ -27,6 +28,7 @@ public class Character {
     private VBox verticalBox;
     private HBox horizontalBox;
     private StackPane characterView;
+    private double size;
 
     public Character(int health, int attackPower, String name, Image image) {
         this.health = health;
@@ -34,7 +36,8 @@ public class Character {
         this.name = name;
         this.image = image;
         this.imageView = new ImageView(image);
-        imageView.setFitWidth(100);
+        this.size = Screen.getPrimary().getBounds().getWidth() / 10;
+        imageView.setFitWidth(size);
         imageView.preserveRatioProperty().set(true);
         this.healthText = new Text(String.valueOf(health));
         this.attackText = new Text(String.valueOf(attackPower));

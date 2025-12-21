@@ -2,6 +2,8 @@ package com.autobattler.character;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +12,16 @@ public class Team {
     private HBox teamView;
     private boolean player;
     private static final int TEAM_SIZE = 5;
+    private double size;
 
     public Team(boolean player) {
         this.player = player;
+        this.size = Screen.getPrimary().getBounds().getWidth() / 10;
         members = new ArrayList<>();
         teamView = new HBox();
-        teamView.setSpacing(10);
-        teamView.setPrefHeight(100);
-        teamView.setPrefWidth(500);
+        teamView.setSpacing(0);
+        teamView.setPrefHeight(size);
+        teamView.setPrefWidth(5 * size);
         
         initializePlaceholders();
     }
@@ -32,7 +36,7 @@ public class Team {
 
     private VBox createPlaceholder() {
         VBox placeholder = new VBox();
-        placeholder.setPrefSize(100, 100);
+        placeholder.setPrefSize(size, size);
         placeholder.setStyle("-fx-border-color: gray; -fx-border-width: 1px;");
         return placeholder;
     }
