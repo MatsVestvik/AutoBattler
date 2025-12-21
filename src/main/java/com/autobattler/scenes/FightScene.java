@@ -76,22 +76,27 @@ public class FightScene {
         Scene battleScene = new Scene(battlePane, 10 * (int)size, (int)size * 2);
 
 
-        Platform.runLater(() -> {
-            primaryStage.setScene(battleScene);
-        });
-        
-        // Run battle in background
-        new Thread(() -> {
-            AutoBattle autoBattle = new AutoBattle();
-            autoBattle.battle(playerTeam, enemyTeam);
-            
-            // Check result and switch to lose scene if needed
-            Platform.runLater(() -> {
-                if(!playerTeam.hasAliveMembers() || !enemyTeam.hasAliveMembers()) {
+        primaryStage.setScene(battleScene);
+    
+        AutoBattle autoBattle = new AutoBattle();
+        autoBattle.battle(playerTeam, enemyTeam);
+
+        Timeline checkBattleOutcome = new Timeline(new KeyFrame(Duration.millis(500), e -> {
+            if (!playerTeam.hasAliveMembers()) {
+                Platform.runLater(() -> {
                     primaryStage.setScene(loseScene);
-                }
-            });
-        }).start();
+                });
+            }
+            else if (!enemyTeam.hasAliveMembers()) {
+                Platform.runLater(() -> {
+                    YouWinScene youWinScene = new YouWinScene();
+                    Scene winScene = youWinScene.createScene(primaryStage);
+                    primaryStage.setScene(winScene);
+                });
+            }
+        }));
+        checkBattleOutcome.setCycleCount(Timeline.INDEFINITE);
+        checkBattleOutcome.play();
     }
     
 }

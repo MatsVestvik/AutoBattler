@@ -22,7 +22,7 @@ public class Attack {
         KeyFrame attack = new KeyFrame(Duration.millis(100) , 
             new KeyValue(defender.getHealthText().fillProperty(), Color.RED),
             new KeyValue(attacker.getAttackText().fillProperty(), Color.BLUE),
-            new KeyValue(attacker.getCharacterView().translateXProperty(), attacker.getCharacterView().getTranslateX() + direction * size/2)
+            new KeyValue(attacker.getCharacterView().translateXProperty(), attacker.getCharacterView().getTranslateX() + direction * size/1.5)
         );
         KeyFrame takeDamage = new KeyFrame (Duration.millis(500),
             new KeyValue(defender.getHealthText().fillProperty(), Color.GREEN),
