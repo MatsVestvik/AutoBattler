@@ -16,21 +16,24 @@ import javafx.stage.Stage;
 
 public class FightScene {
 
-    public Scene createScene(Team playerTeam, Team enemyTeam, Stage primaryStage, Scene winScene, Scene loseScene) {
+    public static void runFightScene(Stage primaryStage, Team playerTeam, Team enemyTeam) {
         AutoBattle autoBattle = new AutoBattle();
         autoBattle.battle(playerTeam, enemyTeam);
+
+        YouLoseScene youLoseScene = new YouLoseScene();
+        Scene loseScene = youLoseScene.createScene(primaryStage);
 
         if(!playerTeam.hasAliveMembers()) {
             primaryStage.setScene(loseScene);
         } else if (!enemyTeam.hasAliveMembers()) {
-            primaryStage.setScene(winScene);
+            primaryStage.setScene(loseScene);
         }
 
         HBox root = new HBox(50);
         root.getChildren().add(playerTeam.getTeamView());
         root.getChildren().add(enemyTeam.getTeamView());
         Scene scene = new Scene(root);
-        return scene;
+        primaryStage.setScene(scene);
     }
     
 }

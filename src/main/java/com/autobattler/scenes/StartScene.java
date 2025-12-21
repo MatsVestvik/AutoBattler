@@ -12,7 +12,7 @@ import com.autobattler.util.makeImage;
 import com.autobattler.character.Character;
 
 public class StartScene {
-    public static void runStartScene(Stage primaryStage, Scene winScene, Scene loseScene) {
+    public static void runStartScene(Stage primaryStage) {
         Image cavemanAvatar = makeImage.loadImage("/img/sprites/character/Basic_Character.gif");
         Image orcAvatar = makeImage.loadImage("/img/sprites/character/Orc.gif");
 
@@ -42,12 +42,11 @@ public class StartScene {
         enemyTeam.setMember(3, orc2);
         enemyTeam.setMember(0, orc3);
         enemyTeam.setMember(4, orc4);
-        FightScene fightSceneInstance = new FightScene();
-        Scene fightScene = fightSceneInstance.createScene(team, enemyTeam, primaryStage, winScene, loseScene);
+        
 
         Button startButton = new Button("Start Game");
         startButton.setOnAction(e -> {
-            primaryStage.setScene(fightScene);
+            FightScene.runFightScene(primaryStage, team, enemyTeam);
         });
 
         Scene startScene = new Scene(new StackPane(startButton), 800, 600);

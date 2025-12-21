@@ -23,10 +23,7 @@ public class Main extends Application {
         
         
 
-        YouLoseScene youLoseScene = new YouLoseScene();
-        Scene loseSceneInstance = youLoseScene.createScene(primaryStage);
-
-        StartScene.runStartScene(primaryStage, loseSceneInstance, loseSceneInstance);
+        StartScene.runStartScene(primaryStage);
 
         primaryStage.setTitle("AutoBattler");
         primaryStage.setMaximized(true);
