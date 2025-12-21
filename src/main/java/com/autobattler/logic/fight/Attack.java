@@ -11,15 +11,18 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 
 public class Attack {
     public static void redText(Character attacker, Character defender, int direction) {
+        double size = Screen.getPrimary().getBounds().getWidth() / 10;
         Timeline timeline = new Timeline();
         defender.takeDamage(attacker.getAttackPower());
         KeyFrame attack = new KeyFrame(Duration.millis(100) , 
             new KeyValue(defender.getHealthText().fillProperty(), Color.RED),
             new KeyValue(attacker.getAttackText().fillProperty(), Color.BLUE),
-            new KeyValue(attacker.getCharacterView().translateXProperty(), attacker.getCharacterView().getTranslateX() + direction * 20)
+            new KeyValue(attacker.getCharacterView().translateXProperty(), attacker.getCharacterView().getTranslateX() + direction * size/2)
         );
         KeyFrame takeDamage = new KeyFrame (Duration.millis(500),
             new KeyValue(defender.getHealthText().fillProperty(), Color.GREEN),

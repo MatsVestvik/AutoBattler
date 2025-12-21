@@ -37,7 +37,6 @@ public class Team {
     private VBox createPlaceholder() {
         VBox placeholder = new VBox();
         placeholder.setPrefSize(size, size);
-        placeholder.setStyle("-fx-border-color: gray; -fx-border-width: 1px;");
         return placeholder;
     }
 
