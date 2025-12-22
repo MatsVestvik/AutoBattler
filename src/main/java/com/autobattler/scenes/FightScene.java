@@ -41,16 +41,12 @@ public class FightScene {
 
         Character orc1 = new Character(120, 25, "Orc", orcAvatar);
         Character orc2 = new Character(120, 25, "Orc", orcAvatar);
-        Character orc3 = new Character(120, 25, "Orc", orcAvatar);
-        Character orc4 = new Character(120, 25, "Orc", orcAvatar);
 
 
         Team enemyTeam = new Team(false);
         
         enemyTeam.setMember(1, orc1);
         enemyTeam.setMember(3, orc2);
-        enemyTeam.setMember(0, orc3);
-        enemyTeam.setMember(4, orc4);
 
 
         YouLoseScene youLoseScene = new YouLoseScene();
@@ -89,9 +85,7 @@ public class FightScene {
             }
             else if (!enemyTeam.hasAliveMembers()) {
                 Platform.runLater(() -> {
-                    YouWinScene youWinScene = new YouWinScene();
-                    Scene winScene = youWinScene.createScene(primaryStage);
-                    primaryStage.setScene(winScene);
+                    ShopScene.runShopScene(playerTeam, primaryStage);
                 });
             }
         }));
