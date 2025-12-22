@@ -3,6 +3,8 @@ package com.autobattler.character;
 import java.security.Key;
 import java.util.Stack;
 
+import com.autobattler.character.ability.Ability;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -29,8 +31,10 @@ public class Character {
     private HBox horizontalBox;
     private StackPane characterView;
     private double size;
+    private Ability ability;
 
-    public Character(int health, int attackPower, String name, Image image) {
+    public Character(int health, int attackPower, String name, Image image, Ability ability) {
+        this.ability = ability;
         this.health = health;
         this.attackPower = attackPower;
         this.name = name;
@@ -59,6 +63,11 @@ public class Character {
     public Text getHealthText() {return healthText;}
     public Text getAttackText() {return attackText;}
     public StackPane getCharacterView() {return characterView;}
+    public Ability getAbility() {return ability;}
+
+    public void triggerAbility() {
+        ability.triggerAbility(this);
+    }
 
     public void setHealth(int health) {
         if (health<= 0){

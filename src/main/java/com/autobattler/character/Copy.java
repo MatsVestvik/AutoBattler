@@ -10,7 +10,8 @@ public class Copy {
                     member.getHealth(),
                     member.getAttackPower(),
                     member.getName(),
-                    member.getImage()
+                    member.getImage(),
+                    member.getAbility()
                 );
                 copy.setMember(i, memberCopy);
             }

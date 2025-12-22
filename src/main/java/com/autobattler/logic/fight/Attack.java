@@ -19,6 +19,7 @@ public class Attack {
         double size = Screen.getPrimary().getBounds().getWidth() / 10;
         Timeline timeline = new Timeline();
         defender.takeDamage(attacker.getAttackPower());
+        attacker.triggerAbility();
         KeyFrame attack = new KeyFrame(Duration.millis(100) , 
             new KeyValue(defender.getHealthText().fillProperty(), Color.RED),
             new KeyValue(attacker.getAttackText().fillProperty(), Color.BLUE),
