@@ -17,7 +17,7 @@ import javafx.scene.image.ImageView;
 public class AutoBattle {
     
     public void battle(Team player, Team enemy) {
-
+        
         Timeline battle = new Timeline();
         player.compactTeam();
         enemy.compactTeam();

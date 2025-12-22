@@ -4,7 +4,7 @@ import com.autobattler.character.Team;
 import com.autobattler.logic.fight.Attack;
 import com.autobattler.logic.fight.AutoBattle;
 import com.autobattler.character.Character;
-
+import com.autobattler.character.Copy;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -33,11 +33,15 @@ public class FightScene {
 
 
         Team playerTeam = new Team(true);
+
+        
         playerTeam.setMember(0, caveman1);
         playerTeam.setMember(4, caveman2);
         playerTeam.setMember(2, caveman3);
         playerTeam.setMember(3, caveman4);
         playerTeam.setMember(1, caveman5);
+
+        Team savePlayerTeam = Copy.copyTeam(playerTeam);
 
         Character orc1 = new Character(120, 25, "Orc", orcAvatar);
         Character orc2 = new Character(120, 25, "Orc", orcAvatar);
@@ -85,7 +89,7 @@ public class FightScene {
             }
             else if (!enemyTeam.hasAliveMembers()) {
                 Platform.runLater(() -> {
-                    ShopScene.runShopScene(playerTeam, primaryStage);
+                    ShopScene.runShopScene(savePlayerTeam, primaryStage);
                 });
             }
         }));
