@@ -33,5 +33,9 @@ public class ShopScene {
         Scene shopScene = new Scene(shopLayout, Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
         primaryStage.setScene(shopScene);
         primaryStage.show();
+
+        fightButton.setOnAction(e -> {
+            FightScene.runFightScene(primaryStage);
+        });
     }
 }
