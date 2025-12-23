@@ -63,8 +63,19 @@ public class Team {
         return teamView;
     }
 
+    public int getSize() {
+        return TEAM_SIZE;
+    }
+
     public boolean isPlayer() {
         return player;
+    }
+
+    public Character getMember(int position) {
+        if (position >= 0 && position < TEAM_SIZE) {
+            return members.get(position);
+        }
+        return null;
     }
 
     public boolean setMember(int position, Character character) {
@@ -263,6 +274,17 @@ public class Team {
                 removeMember(i);
                 teamView.getChildren().set(i, createPlaceholder());
                 this.compactTeam();
+            }
+        }
+    }
+
+    public void updateTeamView() {
+        teamView.getChildren().clear();
+        for (Character member : members) {
+            if (member != null) {
+                teamView.getChildren().add(member.getCharacterView());
+            } else {
+                teamView.getChildren().add(createPlaceholder());
             }
         }
     }

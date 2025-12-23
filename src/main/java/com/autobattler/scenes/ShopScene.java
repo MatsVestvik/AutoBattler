@@ -2,6 +2,8 @@ package com.autobattler.scenes;
 
 import com.autobattler.character.Team;
 import com.autobattler.character.specificCharacters.CaveMan;
+import com.autobattler.character.specificCharacters.Orc;
+import com.autobattler.character.Character;
 
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
@@ -19,6 +21,7 @@ public class ShopScene {
     public static void runShopScene(Team playerTeam, Stage primaryStage) {
         Button fightButton = new Button("Start Fight");
         Button buyCaveman = new Button("Buy Caveman - 50 Gold");
+        Button buyOrc = new Button("Buy Orc - 50 Gold");
         VBox shopLayout = new VBox();
         StackPane teamWrapper = new StackPane();
         HBox backgroundContainer = new HBox();
@@ -33,11 +36,16 @@ public class ShopScene {
         teamWrapper.getChildren().add(playerTeam.getTeamView());
         shopLayout.getChildren().add(teamWrapper);
         shopLayout.getChildren().add(buyCaveman);
+        shopLayout.getChildren().add(buyOrc);
         shopLayout.getChildren().add(fightButton);
         Scene shopScene = new Scene(shopLayout, Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
         primaryStage.setScene(shopScene);
         primaryStage.show();
 
+        buyOrc.setOnAction(e -> {
+            Orc orc = new Orc();
+            playerTeam.addMember(orc.getCharacter());
+        });
         buyCaveman.setOnAction(e -> {
             CaveMan caveman = new CaveMan();
             playerTeam.addMember(caveman.getCharacter());
@@ -45,5 +53,16 @@ public class ShopScene {
         fightButton.setOnAction(e -> {
             FightScene.runFightScene(playerTeam, primaryStage);
         });
+        for (int i = 0; i < playerTeam.getSize(); i++) {
+            Character character = playerTeam.getMember(i);
+            if (character != null) {
+                int index = i;
+                character.getButton().setOnAction(e -> {
+                    System.out.println("Removing character at index: " + index);
+                    playerTeam.removeMember(character);
+                    playerTeam.updateTeamView();
+                });
+            }
+        }
     }
 }

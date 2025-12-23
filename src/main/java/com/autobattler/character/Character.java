@@ -62,7 +62,7 @@ public class Character {
         deltaAttackText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
         this.button = new Button();
         button.setPrefSize(size, size);
-        button.opacityProperty().set(0);
+        button.opacityProperty().set(0.5);
         this.verticalBox = new VBox(5);
         this.statBox = new HBox(5);
         this.deltaStatsBox = new HBox(5);
@@ -89,6 +89,8 @@ public class Character {
     public Ability getAbility() {return ability;}
     public Text getDeltaHealthText() {return deltaHealthText;}
     public Text getDeltaAttackText() {return deltaAttackText;}
+    public Button getButton() {return button;}
+    public StackPane getCharacterBox() {return characterBox;}
 
     public void triggerAbility() {
         ability.triggerAbility(this);
