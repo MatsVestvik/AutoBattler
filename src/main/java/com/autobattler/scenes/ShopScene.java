@@ -4,6 +4,8 @@ import com.autobattler.character.Team;
 import com.autobattler.character.specificCharacters.CaveMan;
 import com.autobattler.character.specificCharacters.Orc;
 import com.autobattler.character.Character;
+import com.autobattler.scenes.FightScene;
+import com.autobattler.character.specificCharacters.Baker;
 
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
@@ -22,6 +24,7 @@ public class ShopScene {
         Button fightButton = new Button("Start Fight");
         Button buyCaveman = new Button("Buy Caveman - 50 Gold");
         Button buyOrc = new Button("Buy Orc - 50 Gold");
+        Button buyBaker = new Button("Buy Baker - 50 Gold");
         VBox shopLayout = new VBox();
         StackPane teamWrapper = new StackPane();
         HBox backgroundContainer = new HBox();
@@ -37,11 +40,17 @@ public class ShopScene {
         shopLayout.getChildren().add(teamWrapper);
         shopLayout.getChildren().add(buyCaveman);
         shopLayout.getChildren().add(buyOrc);
+        shopLayout.getChildren().add(buyBaker);
         shopLayout.getChildren().add(fightButton);
         Scene shopScene = new Scene(shopLayout, Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
         primaryStage.setScene(shopScene);
         primaryStage.show();
 
+        buyBaker.setOnAction(e -> {
+            Baker baker = new Baker();
+            playerTeam.addMember(baker.getCharacter());
+            updateButtons(playerTeam);
+        });
         buyOrc.setOnAction(e -> {
             Orc orc = new Orc();
             playerTeam.addMember(orc.getCharacter());
