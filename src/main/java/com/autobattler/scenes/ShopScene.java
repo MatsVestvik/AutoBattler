@@ -45,14 +45,30 @@ public class ShopScene {
         buyOrc.setOnAction(e -> {
             Orc orc = new Orc();
             playerTeam.addMember(orc.getCharacter());
+            updateButtons(playerTeam);
         });
         buyCaveman.setOnAction(e -> {
             CaveMan caveman = new CaveMan();
             playerTeam.addMember(caveman.getCharacter());
+            updateButtons(playerTeam);
         });
         fightButton.setOnAction(e -> {
             FightScene.runFightScene(playerTeam, primaryStage);
         });
+        for (int i = 0; i < playerTeam.getSize(); i++) {
+            Character character = playerTeam.getMember(i);
+            if (character != null) {
+                int index = i;
+                character.getButton().setOnAction(e -> {
+                    System.out.println("Removing character at index: " + index);
+                    playerTeam.removeMember(character);
+                    playerTeam.updateTeamView();
+                });
+            }
+        }
+    }
+
+    private static void updateButtons(Team playerTeam) {
         for (int i = 0; i < playerTeam.getSize(); i++) {
             Character character = playerTeam.getMember(i);
             if (character != null) {
