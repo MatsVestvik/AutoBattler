@@ -93,16 +93,23 @@ public class Character {
         this.healthText.setText(String.valueOf(this.health));
     }
 
+    public void setAttackPower(int attackPower) {
+        changeText(deltaAttackText, this.attackPower - attackPower);
+        this.attackPower = attackPower;
+        this.attackText.setText(String.valueOf(this.attackPower));
+    }
+
     public void changeText(Text text, int value) {
-        if (value>0) {
+        final int absValue = Math.abs(value);
+        if (value<0) {
             Timeline timeline = new Timeline();
             KeyFrame increase = new KeyFrame(Duration.millis(0),
                 e -> {
-                    text.setText("+" + String.valueOf(value));
+                    text.setText("+" + String.valueOf(absValue));
                     text.setFill(Color.GREEN);
                 }
             );            
-            KeyFrame disappear = new KeyFrame(Duration.millis(500),
+            KeyFrame disappear = new KeyFrame(Duration.millis(1000),
                 e -> {
                     text.setText("   ");
                 }
@@ -110,15 +117,15 @@ public class Character {
             timeline.getKeyFrames().addAll(increase, disappear);
             timeline.play();
         }
-        else if (value<0) {
+        else if (value>0) {
             Timeline timeline = new Timeline();
             KeyFrame decrease = new KeyFrame(Duration.millis(0),
                 e -> {
-                    text.setText(String.valueOf(value));
+                    text.setText("-" + String.valueOf(absValue));
                     text.setFill(Color.RED);
                 }
             );
-            KeyFrame disappear = new KeyFrame(Duration.millis(500),
+            KeyFrame disappear = new KeyFrame(Duration.millis(1000),
                 e -> {
                     text.setText("  ");
                 }
@@ -134,7 +141,7 @@ public class Character {
 
     public void takeDamage(int damage) {
         Timeline timeline = new Timeline();
-        KeyFrame takeDamage = new KeyFrame (Duration.millis(500), e -> {
+        KeyFrame takeDamage = new KeyFrame (Duration.millis(1000), e -> {
             new KeyValue(healthText.fillProperty(), Color.RED); 
         });
         timeline.getKeyFrames().add(takeDamage);

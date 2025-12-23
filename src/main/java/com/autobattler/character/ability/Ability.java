@@ -14,6 +14,6 @@ public class Ability {
 
     public void triggerAbility(Character character){
         character.setHealth(character.getHealth() + healAmount);
-        character.setHealth(character.getHealth() - damageAmount);
+        character.setAttackPower(character.getAttackPower() + damageAmount);
     }
 }

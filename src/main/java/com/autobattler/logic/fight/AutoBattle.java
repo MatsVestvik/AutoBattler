@@ -21,7 +21,7 @@ public class AutoBattle {
         Timeline battle = new Timeline();
         player.compactTeam();
         enemy.compactTeam();
-        KeyFrame playerAttack = new KeyFrame(Duration.millis(1000), e -> {
+        KeyFrame playerAttack = new KeyFrame(Duration.millis(2000), e -> {
             if (!player.hasAliveMembers() || !enemy.hasAliveMembers()) {
                 battle.stop();
                 return;
@@ -29,7 +29,7 @@ public class AutoBattle {
             attack(player, enemy);
         });
         
-        KeyFrame enemyAttack = new KeyFrame(Duration.millis(2000), e -> {
+        KeyFrame enemyAttack = new KeyFrame(Duration.millis(4000), e -> {
             if (!player.hasAliveMembers() || !enemy.hasAliveMembers()) {
                 battle.stop();
                 return;
