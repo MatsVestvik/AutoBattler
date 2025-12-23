@@ -19,7 +19,6 @@ public class Attack {
         double size = Screen.getPrimary().getBounds().getWidth() / 10;
         Timeline timeline = new Timeline();
         defender.takeDamage(attacker.getAttackPower());
-        attacker.triggerAbility();
         KeyFrame attack = new KeyFrame(Duration.millis(100) , 
             new KeyValue(defender.getHealthText().fillProperty(), Color.RED),
             new KeyValue(attacker.getAttackText().fillProperty(), Color.BLUE),
@@ -30,7 +29,12 @@ public class Attack {
             new KeyValue(attacker.getAttackText().fillProperty(), Color.BLACK),
             new KeyValue(attacker.getCharacterView().translateXProperty(), attacker.getCharacterView().getTranslateX())
         );
-        timeline.getKeyFrames().addAll(attack, takeDamage);
+        KeyFrame ability = new KeyFrame (Duration.millis(1000),
+            e -> {
+                attacker.triggerAbility();
+            }
+        );
+        timeline.getKeyFrames().addAll(attack, takeDamage, ability);
         timeline.play();
     }
 }
