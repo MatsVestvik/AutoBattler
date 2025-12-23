@@ -18,6 +18,7 @@ import javafx.animation.Timeline;
 import javafx.animation.KeyValue;
 import javafx.util.Duration;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class Character {
     private int health;
@@ -85,33 +86,37 @@ public class Character {
 
     public void setHealth(int health) {
         if (health<= 0){
-            changeText(deltaHealthText, this.health-health);
+            changeText(healthText, deltaHealthText, this.health-health);
             this.health = 0;
         } else {
-            changeText(deltaHealthText, this.health - health);
+            changeText(healthText, deltaHealthText, this.health - health);
             this.health = health;}
         this.healthText.setText(String.valueOf(this.health));
     }
 
     public void setAttackPower(int attackPower) {
-        changeText(deltaAttackText, this.attackPower - attackPower);
+        changeText(attackText, deltaAttackText, this.attackPower - attackPower);
         this.attackPower = attackPower;
         this.attackText.setText(String.valueOf(this.attackPower));
     }
 
-    public void changeText(Text text, int value) {
+    public void changeText(Text text, Text deltaText, int value) {
         final int absValue = Math.abs(value);
+        Paint OriginalColor = text.getFill();
         if (value<0) {
+            
             Timeline timeline = new Timeline();
             KeyFrame increase = new KeyFrame(Duration.millis(0),
                 e -> {
-                    text.setText("+" + String.valueOf(absValue));
+                    deltaText.setText("+" + String.valueOf(absValue));
+                    deltaText.setFill(Color.GREEN);
                     text.setFill(Color.GREEN);
                 }
             );            
             KeyFrame disappear = new KeyFrame(Duration.millis(1000),
                 e -> {
-                    text.setText("   ");
+                    text.setFill(OriginalColor);
+                    deltaText.setText("   ");
                 }
             );
             timeline.getKeyFrames().addAll(increase, disappear);
@@ -121,13 +126,15 @@ public class Character {
             Timeline timeline = new Timeline();
             KeyFrame decrease = new KeyFrame(Duration.millis(0),
                 e -> {
-                    text.setText("-" + String.valueOf(absValue));
+                    deltaText.setText("-" + String.valueOf(absValue));
+                    deltaText.setFill(Color.RED);
                     text.setFill(Color.RED);
                 }
             );
             KeyFrame disappear = new KeyFrame(Duration.millis(1000),
                 e -> {
-                    text.setText("  ");
+                    deltaText.setText("  ");
+                    text.setFill(OriginalColor);
                 }
             );
             timeline.getKeyFrames().addAll(decrease, disappear);

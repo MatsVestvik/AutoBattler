@@ -49,8 +49,6 @@ public class FightScene {
         
         StackPane battlePane = new StackPane();
         VBox verticalBox = new VBox();
-        StackPane empty = new StackPane();
-        empty.setPrefHeight(Screen.getPrimary().getBounds().getHeight() );
         
         
         double size = Screen.getPrimary().getBounds().getWidth() / 10;
@@ -69,9 +67,9 @@ public class FightScene {
         battlePane.getChildren().add(backgroundContainer);
         battlePane.getChildren().add(root);
         verticalBox.getChildren().add(battlePane);
-        verticalBox.getChildren().add(empty);
 
-        Scene battleScene = new Scene(verticalBox, 10 * (int)size, (int)size * 2);
+        Scene battleScene = new Scene(verticalBox, 10 * (int)size, Screen.getPrimary().getBounds().getHeight() );
+        battleScene.getStylesheets().add("src/main/resources/css/style.css");
 
 
         primaryStage.setScene(battleScene);
