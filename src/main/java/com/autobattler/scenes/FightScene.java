@@ -19,6 +19,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import com.autobattler.util.makeImage;
 
 public class FightScene {
@@ -47,6 +48,10 @@ public class FightScene {
         Scene loseScene = youLoseScene.createScene(primaryStage);
         
         StackPane battlePane = new StackPane();
+        VBox verticalBox = new VBox();
+        StackPane empty = new StackPane();
+        empty.setPrefHeight(Screen.getPrimary().getBounds().getHeight() );
+        
         
         double size = Screen.getPrimary().getBounds().getWidth() / 10;
         HBox backgroundContainer = new HBox();
@@ -63,7 +68,10 @@ public class FightScene {
         root.getChildren().add(enemyTeam.getTeamView());
         battlePane.getChildren().add(backgroundContainer);
         battlePane.getChildren().add(root);
-        Scene battleScene = new Scene(battlePane, 10 * (int)size, (int)size * 2);
+        verticalBox.getChildren().add(battlePane);
+        verticalBox.getChildren().add(empty);
+
+        Scene battleScene = new Scene(verticalBox, 10 * (int)size, (int)size * 2);
 
 
         primaryStage.setScene(battleScene);
@@ -71,18 +79,22 @@ public class FightScene {
         AutoBattle autoBattle = new AutoBattle();
         autoBattle.battle(playerTeam, enemyTeam);
 
+        Timeline[] checkBattleOutcomeRef = new Timeline[1];
         Timeline checkBattleOutcome = new Timeline(new KeyFrame(Duration.millis(500), e -> {
             if (!playerTeam.hasAliveMembers()) {
                 Platform.runLater(() -> {
                     primaryStage.setScene(loseScene);
                 });
+                checkBattleOutcomeRef[0].stop();
             }
             else if (!enemyTeam.hasAliveMembers()) {
                 Platform.runLater(() -> {
                     ShopScene.runShopScene(savePlayerTeam, primaryStage);
                 });
+                checkBattleOutcomeRef[0].stop();
             }
         }));
+        checkBattleOutcomeRef[0] = checkBattleOutcome;
         checkBattleOutcome.setCycleCount(Timeline.INDEFINITE);
         checkBattleOutcome.play();
     }
