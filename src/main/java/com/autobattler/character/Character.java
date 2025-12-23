@@ -1,6 +1,7 @@
 package com.autobattler.character;
 
 import java.security.Key;
+import java.sql.Time;
 import java.util.Stack;
 
 import com.autobattler.character.ability.Ability;
@@ -26,9 +27,12 @@ public class Character {
     private ImageView imageView;
     private Text healthText;
     private Text attackText;
+    private Text deltaHealthText;
+    private Text deltaAttackText;
 
     private VBox verticalBox;
-    private HBox horizontalBox;
+    private HBox statBox;
+    private HBox deltaStatsBox;
     private StackPane characterView;
     private double size;
     private Ability ability;
@@ -47,10 +51,18 @@ public class Character {
         this.attackText = new Text(String.valueOf(attackPower));
         healthText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: green;");
         attackText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: black;");
+
+        this.deltaAttackText = new Text("   ");
+        this.deltaHealthText = new Text("   ");
+        deltaHealthText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
+        deltaAttackText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
+
         this.verticalBox = new VBox(5);
-        this.horizontalBox = new HBox(5);
-        horizontalBox.getChildren().addAll(attackText, healthText);
-        verticalBox.getChildren().addAll(imageView, horizontalBox);
+        this.statBox = new HBox(5);
+        this.deltaStatsBox = new HBox(5);
+        deltaStatsBox.getChildren().addAll(deltaAttackText, deltaHealthText);
+        statBox.getChildren().addAll(attackText, healthText);
+        verticalBox.getChildren().addAll(imageView, statBox, deltaStatsBox);
         this.characterView = new StackPane();
         characterView.getChildren().addAll(verticalBox);
     }
@@ -64,6 +76,8 @@ public class Character {
     public Text getAttackText() {return attackText;}
     public StackPane getCharacterView() {return characterView;}
     public Ability getAbility() {return ability;}
+    public Text getDeltaHealthText() {return deltaHealthText;}
+    public Text getDeltaAttackText() {return deltaAttackText;}
 
     public void triggerAbility() {
         ability.triggerAbility(this);
@@ -71,10 +85,51 @@ public class Character {
 
     public void setHealth(int health) {
         if (health<= 0){
+            changeText(deltaHealthText, this.health-health);
             this.health = 0;
         } else {
+            changeText(deltaHealthText, this.health - health);
             this.health = health;}
         this.healthText.setText(String.valueOf(this.health));
+    }
+
+    public void changeText(Text text, int value) {
+        if (value>0) {
+            Timeline timeline = new Timeline();
+            KeyFrame increase = new KeyFrame(Duration.millis(0),
+                e -> {
+                    text.setText("+" + String.valueOf(value));
+                    text.setFill(Color.GREEN);
+                }
+            );            
+            KeyFrame disappear = new KeyFrame(Duration.millis(500),
+                e -> {
+                    text.setText("   ");
+                }
+            );
+            timeline.getKeyFrames().addAll(increase, disappear);
+            timeline.play();
+        }
+        else if (value<0) {
+            Timeline timeline = new Timeline();
+            KeyFrame decrease = new KeyFrame(Duration.millis(0),
+                e -> {
+                    text.setText(String.valueOf(value));
+                    text.setFill(Color.RED);
+                }
+            );
+            KeyFrame disappear = new KeyFrame(Duration.millis(500),
+                e -> {
+                    text.setText("  ");
+                }
+            );
+            timeline.getKeyFrames().addAll(decrease, disappear);
+            timeline.play();
+        }
+        else {
+            text.setText("   ");
+            
+        }
     }
 
     public void takeDamage(int damage) {
