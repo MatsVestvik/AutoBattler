@@ -1,6 +1,8 @@
 package com.autobattler.scenes;
 
 import com.autobattler.character.Team;
+import com.autobattler.character.specificCharacters.CaveMan;
+
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -16,6 +18,7 @@ import javafx.scene.control.Button;
 public class ShopScene {
     public static void runShopScene(Team playerTeam, Stage primaryStage) {
         Button fightButton = new Button("Start Fight");
+        Button buyCaveman = new Button("Buy Caveman - 50 Gold");
         VBox shopLayout = new VBox();
         StackPane teamWrapper = new StackPane();
         HBox backgroundContainer = new HBox();
@@ -29,13 +32,18 @@ public class ShopScene {
         teamWrapper.getChildren().add(backgroundContainer);
         teamWrapper.getChildren().add(playerTeam.getTeamView());
         shopLayout.getChildren().add(teamWrapper);
+        shopLayout.getChildren().add(buyCaveman);
         shopLayout.getChildren().add(fightButton);
         Scene shopScene = new Scene(shopLayout, Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
         primaryStage.setScene(shopScene);
         primaryStage.show();
 
+        buyCaveman.setOnAction(e -> {
+            CaveMan caveman = new CaveMan();
+            playerTeam.addMember(caveman.getCharacter());
+        });
         fightButton.setOnAction(e -> {
-            FightScene.runFightScene(primaryStage);
+            FightScene.runFightScene(playerTeam, primaryStage);
         });
     }
 }

@@ -19,6 +19,7 @@ import javafx.animation.KeyValue;
 import javafx.util.Duration;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.control.Button;
 
 public class Character {
     private int health;
@@ -37,6 +38,8 @@ public class Character {
     private StackPane characterView;
     private double size;
     private Ability ability;
+    private Button button;
+    private StackPane characterBox;
 
     public Character(int health, int attackPower, String name, Image image, Ability ability) {
         this.ability = ability;
@@ -57,15 +60,22 @@ public class Character {
         this.deltaHealthText = new Text("   ");
         deltaHealthText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
         deltaAttackText.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
-
+        this.button = new Button();
+        button.setPrefSize(size, size);
+        button.opacityProperty().set(0);
         this.verticalBox = new VBox(5);
         this.statBox = new HBox(5);
         this.deltaStatsBox = new HBox(5);
+        this.characterBox = new StackPane();
+        characterBox.setPrefSize(size, size);
+        characterBox.getChildren().add(imageView);
+        characterBox.getChildren().add(button);
         deltaStatsBox.getChildren().addAll(deltaAttackText, deltaHealthText);
         statBox.getChildren().addAll(attackText, healthText);
-        verticalBox.getChildren().addAll(imageView, statBox, deltaStatsBox);
+        verticalBox.getChildren().addAll(characterBox, statBox, deltaStatsBox);
         this.characterView = new StackPane();
-        characterView.getChildren().addAll(verticalBox);
+        characterView.getChildren().add(verticalBox);
+        
     }
 
     public int getHealth() {return health;}

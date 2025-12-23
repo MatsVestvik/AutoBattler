@@ -24,14 +24,7 @@ import com.autobattler.util.makeImage;
 
 public class FightScene {
 
-    public static void runFightScene(Stage primaryStage) {
-        
-        Team playerTeam = new Team(true);
-        for (int i = 0; i < 5; i++) {
-            CaveMan caveman = new CaveMan();
-            Character cavemanChar = caveman.getCharacter();
-            playerTeam.setMember(i, cavemanChar);
-        }
+    public static void runFightScene(Team playerTeam, Stage primaryStage) {
 
         Team savePlayerTeam = Copy.copyTeam(playerTeam);
 

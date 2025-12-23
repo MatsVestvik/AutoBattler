@@ -18,7 +18,7 @@ public class StartScene {
 
         Button startButton = new Button("Start Game");
         startButton.setOnAction(e -> {
-            FightScene.runFightScene(primaryStage);
+            ShopScene.runShopScene(new Team(true), primaryStage);
         });
 
         Scene startScene = new Scene(new StackPane(startButton), 800, 600);
