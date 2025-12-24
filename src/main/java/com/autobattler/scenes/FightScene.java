@@ -66,6 +66,7 @@ public class FightScene {
 
 
         primaryStage.setScene(battleScene);
+        primaryStage.setTitle("AutoBattler");
     
         AutoBattle autoBattle = new AutoBattle();
         autoBattle.battle(playerTeam, enemyTeam);
